@@ -9,10 +9,10 @@ document.addEventListener('DOMContentLoaded', function () {
 function processPaperText(text) {
     if (text.includes(', editor.')) {
         console.log('Found editor in text:', text);
-        return text.replace(', editor.', ' (Hg.)';
+        return text.replace(', editor.', ' (Hg.)');
     } else if (text.includes(', editor(s).')) {
         console.log('Found editor(s) in text:', text);
-        return text.replace(', editor(s).', ' (Hgg.)';
+        return text.replace(', editor(s).', ' (Hgg.)');
     } else {
         console.log('No editor found in text:', text);
     }
