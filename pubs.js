@@ -1,18 +1,17 @@
 document.addEventListener('DOMContentLoaded', function () {
-    const papers = document.querySelectorAll('.bibbase_paper');
-    papers.forEach(paper => {
-        console.log(paper.textContent)
-        paper.textContent = processPaperText(paper.textContent.trim());
+    const authors = document.querySelectorAll('.bibbase_paper_author');
+    authors.forEach(author => {
+        author.textContent = processAuthorText(author.textContent.trim());
     });
 });
 
-function processPaperText(text) {
-    if (text.includes(', editor.')) {
+function processAuthorText(text) {
+    if (text.endsWith(', editor.')) {
         console.log('Found editor in text:', text);
-        return text.replace(', editor.', ' (Hg.)');
-    } else if (text.includes(', editor(s).')) {
+        return text.slice(0, -9) + ' (Hg.)';
+    } else if (text.endsWith(', editor(s).')) {
         console.log('Found editor(s) in text:', text);
-        return text.replace(', editor(s).', ' (Hgg.)');
+        return text.slice(0, -12) + ' (Hgg.)';
     } else {
         console.log('No editor found in text:', text);
     }
