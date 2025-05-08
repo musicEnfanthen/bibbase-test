@@ -9,3 +9,10 @@ body {
 .bibbase_amazon {
     display: none;
 }
+
+.bibbase_paper_author {
+    white-space: nowrap;
+}
+.bibbase_paper_author::after {
+    content: ':';
+}
