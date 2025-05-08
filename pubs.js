@@ -5,7 +5,6 @@ document.addEventListener('DOMContentLoaded', function () {
 
         if (text.endsWith(', editor.')) {
             text = text.slice(0, -8) + ' (Hg.)';
-            text = text.slice(0, -1);
         }
 
         author.textContent = text + ':';
