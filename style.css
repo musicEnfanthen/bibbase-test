@@ -11,11 +11,9 @@ body {
 }
 
 .bibbase_paper_author {
-    display: inline; /* Ensure the author spans are inline */
-    white-space: nowrap; /* Prevent line breaks within the span */
+    display: inline-flex;
+    white-space: nowrap;
 }
 .bibbase_paper_author::after {
     content: ':';
-    display: inline; /* Ensure the colon is treated as inline content */
-    margin-left: 0; /* Remove any default spacing */
 }
