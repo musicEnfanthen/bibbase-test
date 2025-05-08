@@ -4,7 +4,8 @@ document.addEventListener('DOMContentLoaded', function () {
         let text = author.textContent.trim();
 
         if (text.endsWith('editor.')) {
-            text = text.slice(0, -8) + ' (Hg.)';
+            console.log('Found editor string in ', text)
+            text = text.slice(0, -9) + ' (Hg.)';
         }
 
         author.textContent = text + ':';
