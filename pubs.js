@@ -3,7 +3,7 @@ document.addEventListener('DOMContentLoaded', function () {
     authors.forEach(author => {
         let text = author.textContent.trim();
 
-        if (text.endsWith('editor.')) {
+        if (text.endsWith(', editor.')) {
             console.log('Found editor string in ', text)
             text = text.slice(0, -9) + ' (Hg.)';
         }
