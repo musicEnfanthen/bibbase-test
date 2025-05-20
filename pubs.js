@@ -1,9 +1,10 @@
 document.addEventListener('DOMContentLoaded', function () {
     const authors = document.querySelectorAll('.bibbase_paper_author');
     authors.forEach(author => {
-        console.log(author);
-        console.log(author.textContent);
         author.textContent = processAuthorText(author.textContent);
+
+        const nonSpannedContent = getNonSpannedContent(author.closest('.bibbase_paper_titleauthoryear'));
+        console.log('Non-spanned content:', nonSpannedContent);
     });
 
     const titles = document.querySelectorAll('.bibbase_paper_title');
@@ -18,12 +19,8 @@ function processAuthorText(text) {
 
     if (text.endsWith('editor.')) {
         const slice = normalizedText.slice(0, -9);
-        console.log('Found editor in text:', escape(normalizedText));
-        console.log('Slice:', slice);
-        console.log('Slice + (Hg.):', slice + ' (Hg.):');
         return slice + ' (Hg.):';
     } else if (normalizedText.endsWith('editors.')) {
-        console.log('Found editor(s) in text:', escape(normalizedText));
         return normalizedText.slice(0, -10) + ' (Hgg.):';
     } else {
         console.log('No editor found in text:', normalizedText);
@@ -37,4 +34,16 @@ function processTitleText(text) {
         return text.slice(0, -1) + ',';
     }
     return text;
+}
+
+function getNonSpannedContent(element) {
+    // Access the next sibling node (text content after the given element)
+    const textNode = element.nextSibling;
+    console.log('Next sibling node:', textNode);
+
+    // Check if the sibling is a text node and not empty
+    if (textNode && textNode.nodeType === Node.TEXT_NODE && textNode.textContent.trim() !== '') {
+        return textNode.textContent.trim();
+    }
+    return ''; // Return an empty string if no valid text node is found
 }
