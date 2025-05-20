@@ -17,9 +17,9 @@ function processAuthorText(text) {
         console.log('Slice:', slice);
         console.log('Slice + (Hg.):', slice + ' (Hg.):');
         return slice + ' (Hg.):';
-    } else if (normalizedText.endsWith('editor(s).')) {
+    } else if (normalizedText.endsWith('editors.')) {
         console.log('Found editor(s) in text:', escapde(normalizedText));
-        return normalizedText.slice(0, -12) + ' (Hgg.):';
+        return normalizedText.slice(0, -11) + ' (Hgg.):';
     } else {
         console.log('No editor found in text:', normalizedText);
     }
