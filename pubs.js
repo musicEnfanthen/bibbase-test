@@ -15,6 +15,29 @@ document.addEventListener('DOMContentLoaded', function () {
     });
 });
 
+function getNonSpannedContent(element) {
+    let content = '';
+    let sibling = element.nextSibling;
+
+    // Iterate through all siblings until the `.note` span is reached
+    while (sibling && !(sibling.classList && sibling.classList.contains('note'))) {
+        if (sibling.nodeType === Node.TEXT_NODE && sibling.textContent.trim() !== '') {
+            content += sibling.textContent.trim();
+        } else if (sibling.nodeType === Node.ELEMENT_NODE) {
+            content += ' ' + sibling.outerHTML.trim();
+        }
+        sibling = sibling.nextSibling;
+    }
+
+    const normalizedContent = normalizeText(content);
+    return processNonSpannedText(normalizedContent);
+}
+
+
+function normalizeText(text) {
+    // Normalize the text by replacing multiple spaces with a single space
+    return text.replace(/\s+/g, ' ').trim();
+}
 
 function processAuthorText(text) {
     const normalizedText = normalizeText(text);
@@ -48,23 +71,6 @@ function processTitleText(text) {
     return text;
 }
 
-function getNonSpannedContent(element) {
-    let content = '';
-    let sibling = element.nextSibling;
-
-    // Iterate through all siblings until the `.note` span is reached
-    while (sibling && !(sibling.classList && sibling.classList.contains('note'))) {
-        if (sibling.nodeType === Node.TEXT_NODE && sibling.textContent.trim() !== '') {
-            content += sibling.textContent.trim();
-        } else if (sibling.nodeType === Node.ELEMENT_NODE) {
-            content += ' ' + sibling.outerHTML.trim();
-        }
-        sibling = sibling.nextSibling;
-    }
-
-    const normalizedContent = normalizeText(content);
-    return processNonSpannedText(normalizedContent);
-}
 
 function replaceNonSpannedContent(element, updatedContent) {
     let sibling = element.nextSibling;
@@ -79,9 +85,4 @@ function replaceNonSpannedContent(element, updatedContent) {
     // Insert the updated content as a new text node
     const textNode = document.createTextNode(updatedContent);
     element.parentNode.insertBefore(textNode, sibling);
-}
-
-function normalizeText(text) {
-    // Normalize the text by replacing multiple spaces with a single space
-    return text.replace(/\s+/g, ' ').trim();
 }
