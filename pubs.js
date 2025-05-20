@@ -54,12 +54,13 @@ function processAuthorText(text) {
 }
 
 function processNonSpannedText(text) {
-    // Replace ", pages" with ", S."
-    text = text.replace(/, pages/g, ', S.');
-
     // Replace "In" at the start of the text with "in"
     text = text.replace(/^In \b/, 'in: ');
-
+    // Replace ", editor(s)," with " (Hg.),"
+    text = text.replace(/, editor(s),/, ' (Hg.),');
+    // Replace ", pages" with ", S."
+    text = text.replace(/, pages/g, ', S.');
+    
     return text;
 }
 
