@@ -3,7 +3,12 @@ document.addEventListener('DOMContentLoaded', function () {
     authors.forEach(author => {
         console.log(author);
         console.log(author.textContent);
-        author.textContent = processAuthorText(author.textContent.trim());
+        author.textContent = processAuthorText(author.textContent);
+    });
+
+    const titles = document.querySelectorAll('.bibbase_paper_title');
+    titles.forEach(title => {
+        title.textContent = processTitleText(title.textContent.trim());
     });
 });
 
@@ -24,4 +29,12 @@ function processAuthorText(text) {
         console.log('No editor found in text:', normalizedText);
     }
     return normalizedText + ':';
+}
+
+function processTitleText(text) {
+    if (text.endsWith('“.')) {
+        console.log('Found dep title in text:', escape(normalizedText));
+        return text.slice(0, -1) + ',';
+    }
+    return text;
 }
