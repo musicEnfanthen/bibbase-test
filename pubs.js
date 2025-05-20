@@ -3,8 +3,10 @@ document.addEventListener('DOMContentLoaded', function () {
     authors.forEach(author => {
         author.textContent = processAuthorText(author.textContent);
 
-        const nonSpannedContent = getNonSpannedContent(author.closest('.bibbase_paper_titleauthoryear'));
+        const nonSpannedContentElement = author.closest('.bibbase_paper_titleauthoryear');
+        const nonSpannedContent = getNonSpannedContent(nonSpannedContentElement);
         console.log('Non-spanned content:', nonSpannedContent);
+        replaceNonSpannedContent(nonSpannedContentElement, nonSpannedContent);
     });
 
     const titles = document.querySelectorAll('.bibbase_paper_title');
@@ -50,7 +52,23 @@ function getNonSpannedContent(element) {
         sibling = sibling.nextSibling;
     }
 
-    return normalizeText(content);
+    const normalizedContent = normalizeText(content);
+    return processNonSpannedText(normalizedContent);
+}
+
+function replaceNonSpannedContent(element, updatedContent) {
+    let sibling = element.nextSibling;
+
+    // Iterate through all siblings until the `.note` span is reached
+    while (sibling && !(sibling.classList && sibling.classList.contains('note'))) {
+        const nextSibling = sibling.nextSibling; // Save reference to the next sibling
+        sibling.remove(); // Remove the current sibling
+        sibling = nextSibling; // Move to the next sibling
+    }
+
+    // Insert the updated content as a new text node
+    const textNode = document.createTextNode(updatedContent);
+    element.parentNode.insertBefore(textNode, sibling);
 }
 
 function normalizeText(text) {
