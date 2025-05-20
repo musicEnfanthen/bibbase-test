@@ -57,10 +57,10 @@ function processNonSpannedText(text) {
     // Replace "In" at the start of the text with "in"
     text = text.replace(/^In \b/, 'in: ');
     // Replace ", editor(s)," with " (Hg.),"
-    text = text.replace(/, editor(s),/, ' (Hg.),');
+    text = text.replace(/, editor(s),/g, ' (Hg.),');
     // Replace ", pages" with ", S."
     text = text.replace(/, pages/g, ', S.');
-    
+    console.log('processedText', text);
     return text;
 }
 
