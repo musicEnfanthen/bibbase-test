@@ -33,7 +33,7 @@ function processAuthorText(text) {
 
 function processTitleText(text) {
     if (text.endsWith('“.')) {
-        console.log('Found dep title in text:', escape(normalizedText));
+        console.log('Found dep title in text:', text);
         return text.slice(0, -1) + ',';
     }
     return text;
