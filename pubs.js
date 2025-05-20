@@ -7,16 +7,21 @@ document.addEventListener('DOMContentLoaded', function () {
     });
 });
 
+
 function processAuthorText(text) {
+    const normalizedText = text.replace(/\s+/g, ' ').trim();
+
     if (text.endsWith('editor.')) {
-        console.log('Found editor in text:', escape(text));
-        console.log(text.slice(0, -10));
-        return text.slice(0, -10) + ' (Hg.):';
-    } else if (text.endsWith('editor(s).')) {
-        console.log('Found editor(s) in text:', escape(text));
-        return text.slice(0, -13) + ' (Hgg.):';
+        const slice = normalizedText.slice(0, -9);
+        console.log('Found editor in text:', escape(normalizedText));
+        console.log('Slice:', slice);
+        console.log('Slice + (Hg.):', slice + ' (Hg.):');
+        return slice + ' (Hg.):';
+    } else if (normalizedText.endsWith('editor(s).')) {
+        console.log('Found editor(s) in text:', escapde(normalizedText));
+        return normalizedText.slice(0, -12) + ' (Hgg.):';
     } else {
-        console.log('No editor found in text:', text);
+        console.log('No editor found in text:', normalizedText);
     }
-    return text + ':';
+    return normalizedText + ':';
 }
