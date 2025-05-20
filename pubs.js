@@ -46,7 +46,7 @@ function processAuthorText(text) {
         const slice = normalizedText.slice(0, -9);
         return slice + ' (Hg.):';
     } else if (normalizedText.endsWith('editors.')) {
-        return normalizedText.slice(0, -10) + ' (Hgg.):';
+        return normalizedText.slice(0, -10) + ' (Hg.):';
     } else {
         return normalizedText + ':';
     }
