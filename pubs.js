@@ -12,7 +12,7 @@ function processAuthorText(text) {
     const normalizedText = text.replace(/\s+/g, ' ').trim();
 
     if (text.endsWith('editor.')) {
-        const slice = normalizedText.slice(0, -9);
+        const slice = normalizedText.slice(0, -10);
         console.log('Found editor in text:', escape(normalizedText));
         console.log('Slice:', slice);
         console.log('Slice + (Hg.):', slice + ' (Hg.):');
