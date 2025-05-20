@@ -30,6 +30,16 @@ function processAuthorText(text) {
     
 }
 
+function processNonSpannedText(text) {
+    // Replace ", pages" with ", S."
+    text = text.replace(/, pages/g, ', S.');
+
+    // Replace "In" at the start of the text with "in"
+    text = text.replace(/^In \b/, 'in: ');
+
+    return text;
+}
+
 function processTitleText(text) {
     if (text.endsWith('“.')) {
         console.log('Found dep title in text:', text);
