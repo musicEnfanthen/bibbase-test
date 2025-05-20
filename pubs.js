@@ -37,15 +37,20 @@ function processTitleText(text) {
 }
 
 function getNonSpannedContent(element) {
-    // Access the next sibling node (text content after the given element)
-    const textNode = element.nextSibling;
-    console.log('Next sibling node:', textNode);
+    let content = '';
+    let sibling = element.nextSibling;
 
-    // Check if the sibling is a text node and not empty
-    if (textNode && textNode.nodeType === Node.TEXT_NODE && textNode.textContent.trim() !== '') {
-        return normalizeText(textNode.textContent);
+    // Iterate through all siblings until the `.note` span is reached
+    while (sibling && !(sibling.classList && sibling.classList.contains('note'))) {
+        if (sibling.nodeType === Node.TEXT_NODE && sibling.textContent.trim() !== '') {
+            content += sibling.textContent.trim();
+        } else if (sibling.nodeType === Node.ELEMENT_NODE) {
+            content += sibling.textContent.trim();
+        }
+        sibling = sibling.nextSibling;
     }
-    return ''; // Return an empty string if no valid text node is found
+
+    return normalizeText(content);
 }
 
 function normalizeText(text) {
