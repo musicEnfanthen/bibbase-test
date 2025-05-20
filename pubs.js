@@ -60,7 +60,7 @@ function processNonSpannedText(text) {
     text = text.replace(/, editor(s),/g, ' (Hg.),');
     // Replace ", pages" with ", S."
     text = text.replace(/, pages/g, ', S.');
-    console.log('processedText', text);
+    console.log('processedText', escape(text));
     return text;
 }
 
