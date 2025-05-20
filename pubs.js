@@ -23,9 +23,9 @@ function processAuthorText(text) {
     } else if (normalizedText.endsWith('editors.')) {
         return normalizedText.slice(0, -10) + ' (Hgg.):';
     } else {
-        console.log('No editor found in text:', normalizedText);
+        return normalizedText + ':';
     }
-    return normalizedText + ':';
+    
 }
 
 function processTitleText(text) {
