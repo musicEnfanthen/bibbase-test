@@ -45,7 +45,7 @@ function getNonSpannedContent(element) {
         if (sibling.nodeType === Node.TEXT_NODE && sibling.textContent.trim() !== '') {
             content += sibling.textContent.trim();
         } else if (sibling.nodeType === Node.ELEMENT_NODE) {
-            content += ' ' + sibling.textContent.trim();
+            content += ' ' + sibling.outerHTML.trim();
         }
         sibling = sibling.nextSibling;
     }
