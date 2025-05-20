@@ -15,7 +15,7 @@ document.addEventListener('DOMContentLoaded', function () {
 
 
 function processAuthorText(text) {
-    const normalizedText = text.replace(/\s+/g, ' ').trim();
+    const normalizedText = normalizeText(text);
 
     if (text.endsWith('editor.')) {
         const slice = normalizedText.slice(0, -9);
@@ -43,7 +43,12 @@ function getNonSpannedContent(element) {
 
     // Check if the sibling is a text node and not empty
     if (textNode && textNode.nodeType === Node.TEXT_NODE && textNode.textContent.trim() !== '') {
-        return textNode.textContent.trim();
+        return normalizeText(textNode.textContent);
     }
     return ''; // Return an empty string if no valid text node is found
+}
+
+function normalizeText(text) {
+    // Normalize the text by replacing multiple spaces with a single space
+    return text.replace(/\s+/g, ' ').trim();
 }
