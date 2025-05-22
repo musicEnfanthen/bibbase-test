@@ -42,10 +42,8 @@ function normalizeText(text) {
 function processAuthorText(text) {
     const normalizedText = normalizeText(text);
 
-    if (text.endsWith('editor.')) {
-        const slice = normalizedText.slice(0, -9);
-        console.log(slice);
-        return slice + ' (Hg.):';
+    if (normalizedText.endsWith('editor.')) {
+        return normalizedText.slice(0, -9) + ' (Hg.):';
     } else if (normalizedText.endsWith('editors.')) {
         return normalizedText.slice(0, -10) + ' (Hg.):';
     } else {
