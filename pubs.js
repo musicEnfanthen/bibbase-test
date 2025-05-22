@@ -83,4 +83,8 @@ function replaceNonSpannedContent(element, updatedContent) {
     // Insert the updated content as a new span
     const tempSpan = document.createElement('span');
     tempSpan.innerHTML = updatedContent;
+
+    while (tempSpan.firstChild) {
+        element.parentNode.insertBefore(tempSpan.firstChild, sibling);
+    }
 }
