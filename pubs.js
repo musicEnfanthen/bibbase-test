@@ -48,18 +48,18 @@ function processAuthor(author) {
         return normalizedText + ':';
     }
 }
+
 function processPublicationDetails(text) {
     // Replace "In" with ", in:"
     text = text.replace(/^In \b/, 'in: ');
     // Replace ", editor(s)," with " (Hg.),"
     text = text.replace(/, editor\(s\),/g, ' (Hg.),');
+    // Replace series
+    text = text.replace(/, volume (\d+), of ([^,]+),/g, ', (= $2 $1),');
     // Replace pages with S.
     text = text.replace(/, pages/g, ', S.');
     // Move pages to the end
-    text = text.replace(
-        /, S\. ([^.,]+)\.\s*([^.,]+),\s*([^,]+),\s*(\d{4})\./,
-        ', $3: $2, $4, S. $1.'
-    );
+    text = text.replace(/, S\. ([^.,]+)\.\s*([^.,]+),\s*([^,]+),\s*(\d{4})\./, ', $3: $2, $4, S. $1.');
     // Change order of publisher and address if not already handled
     text = text.replace(/\.\s*([^.,]+),\s*([^.,]+),\s*(\d{4})\.$/, '. $2: $1, $3. ');
 
