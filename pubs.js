@@ -54,8 +54,10 @@ function processPublicationDetails(text) {
     text = text.replace(/^In \b/, 'in: ');
     // Replace ", editor(s)," with " (Hg.),"
     text = text.replace(/, editor\(s\),/g, ' (Hg.),');
-    // Replace series
+    // Replace series in papers
     text = text.replace(/, volume (\d+), of ([^,]+),/g, ' (= $2 $1),');
+    // Replace series in books
+    text = text.replace(/. Volume (\d+) of ([^,]+),/g, ' (= $2 $1),');
     // Replace pages with S.
     text = text.replace(/, pages/g, ', S.');
     // Move pages to the end
