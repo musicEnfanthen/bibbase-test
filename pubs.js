@@ -57,7 +57,7 @@ function processPublicationDetails(text) {
     // Replace pages with S.
     text = text.replace(/, pages/g, ', S.');
     // Change order of publisher and address
-    text = text.replace(/([^,]+),\s*([^,]+),\s*(\d{4})\./, '$2: $1, $3.');
+    text = text.replace(/\.\s([^,]+),\s*([^,]+),\s*(\d{4})\./, '$2: $1, $3.');
 
     return text;
 }
