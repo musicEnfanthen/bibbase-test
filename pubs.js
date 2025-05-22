@@ -50,9 +50,15 @@ function processAuthor(author) {
 }
 
 function processPublicationDetails(text) {
+    // Replace "In" with ", in:"
     text = text.replace(/^In \b/, 'in: ');
+    // Replace ", editor(s)," with " (Hg.),"
     text = text.replace(/, editor\(s\),/g, ' (Hg.),');
+    // Replace pages with S.
     text = text.replace(/, pages/g, ', S.');
+    // Change order of publisher and address
+    text = text.replace(/([^,]+),\s*([^,]+),\s*(\d{4})\./, '$2: $1, $3.');
+
     return text;
 }
 
