@@ -61,13 +61,11 @@ function processNonSpannedText(text) {
     text = text.replace(/, editor(s),/g, ' (Hg.),');
     // Replace ", pages" with ", S."
     text = text.replace(/, pages/g, ', S.');
-    console.log('processedText', escape(text));
     return text;
 }
 
 function processTitleText(text) {
     if (text.endsWith('“.')) {
-        console.log('Found dep title in text:', text);
         return text.slice(0, -1) + ',';
     }
     return text;
