@@ -44,6 +44,7 @@ function processAuthorText(text) {
 
     if (text.endsWith('editor.')) {
         const slice = normalizedText.slice(0, -9);
+        console.log(slice);
         return slice + ' (Hg.):';
     } else if (normalizedText.endsWith('editors.')) {
         return normalizedText.slice(0, -10) + ' (Hg.):';
