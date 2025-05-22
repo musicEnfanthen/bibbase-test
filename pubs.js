@@ -57,7 +57,7 @@ function processPublicationDetails(text) {
     // Replace series in papers
     text = text.replace(/, volume ([^,]+), of ([^,]+),/g, ' (= $2 $1),');
     // Replace series in books
-    text = text.replace(/. Volume ([^]+) of ([^,]+),/g, ' (= $2 $1),');
+    text = text.replace(/\. Volume ([^]+) of ([^,]+),/g, ' (= $2 $1),');
     // Replace pages with S.
     text = text.replace(/, pages/g, ', S.');
     // Move pages to the end
