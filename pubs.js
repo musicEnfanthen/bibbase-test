@@ -1,21 +1,20 @@
 document.addEventListener('DOMContentLoaded', function () {
     const authors = document.querySelectorAll('.bibbase_paper_author');
     authors.forEach(author => {
-        author.textContent = processAuthorText(author.textContent);
+        author.textContent = processAuthor(author.textContent);
 
-        const nonSpannedContentElement = author.closest('.bibbase_paper_titleauthoryear');
-        const nonSpannedContent = getNonSpannedContent(nonSpannedContentElement);
-        console.log('Non-spanned content:', nonSpannedContent);
-        replaceNonSpannedContent(nonSpannedContentElement, nonSpannedContent);
+        const publicationDetailsElement = author.closest('.bibbase_paper_titleauthoryear');
+        const publicationDetails = getPublicationDetails(publicationDetailsElement);
+        replacePublicationDetails(publicationDetailsElement, publicationDetails);
     });
 
     const titles = document.querySelectorAll('.bibbase_paper_title');
     titles.forEach(title => {
-        title.textContent = processTitleText(title.textContent.trim());
+        title.textContent = processTitle(title.textContent.trim());
     });
 });
 
-function getNonSpannedContent(element) {
+function getPublicationDetails(element) {
     let content = '';
     let sibling = element.nextSibling;
 
@@ -30,17 +29,16 @@ function getNonSpannedContent(element) {
     }
 
     const normalizedContent = normalizeText(content);
-    return processNonSpannedText(normalizedContent);
+    return processPublicationDetails(normalizedContent);
 }
 
-
 function normalizeText(text) {
-    // Normalize the text by replacing multiple spaces with a single space
+    // Replace multiple spaces & line feeds with a single space
     return text.replace(/\s+/g, ' ').trim();
 }
 
-function processAuthorText(text) {
-    const normalizedText = normalizeText(text);
+function processAuthor(author) {
+    const normalizedText = normalizeText(author);
 
     if (normalizedText.endsWith('editor.')) {
         return normalizedText.slice(0, -9) + ' (Hg.):';
@@ -49,28 +47,23 @@ function processAuthorText(text) {
     } else {
         return normalizedText + ':';
     }
-    
 }
 
-function processNonSpannedText(text) {
-    // Replace "In" at the start of the text with "in"
+function processPublicationDetails(text) {
     text = text.replace(/^In \b/, 'in: ');
-    // Replace ", editor(s)," with " (Hg.),"
     text = text.replace(/, editor\(s\),/g, ' (Hg.),');
-    // Replace ", pages" with ", S."
     text = text.replace(/, pages/g, ', S.');
     return text;
 }
 
-function processTitleText(text) {
-    if (text.endsWith('“.')) {
-        return text.slice(0, -1) + ',';
+function processTitle(title) {
+    if (title.endsWith('“.')) {
+        return title.slice(0, -1) + ',';
     }
-    return text;
+    return title;
 }
 
-
-function replaceNonSpannedContent(element, updatedContent) {
+function replacePublicationDetails(element, updatedContent) {
     let sibling = element.nextSibling;
 
     // Iterate through all siblings until the `.note` span is reached
@@ -81,10 +74,9 @@ function replaceNonSpannedContent(element, updatedContent) {
     }
 
     // Insert the updated content as a new span
-    const tempSpan = document.createElement('span');
-    tempSpan.innerHTML = updatedContent;
+    const detailsSpan = document.createElement('span');
+    detailsSpan.className = 'bibbase_paper_details';
+    detailsSpan.innerHTML = updatedContent;
 
-    while (tempSpan.firstChild) {
-        element.parentNode.insertBefore(tempSpan.firstChild, sibling);
-    }
+    element.parentNode.insertBefore(detailsSpan, sibling);
 }
