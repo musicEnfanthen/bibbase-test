@@ -112,8 +112,10 @@ function _sanitizeHtml(html) {
     console.log('processing node', node);
     while (node) {
         if (!allowedTags.includes(node.tagName)) {
+            console.log('got not allowed tagname', node.tagName)
             // Replace disallowed element with its text content
             const text = doc.createTextNode(node.textContent);
+            console.log('replacing with textcontent', text)
             node.parentNode.replaceChild(text, node);
         } else {
             // Remove all attributes from allowed tags
