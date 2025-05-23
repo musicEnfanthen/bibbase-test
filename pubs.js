@@ -121,5 +121,7 @@ function _sanitizeHtml(html) {
         }
         node = walker.nextNode();
     }
-    return doc.body.firstChild.innerHTML;
+    // Return sanitized HTML or empty string if nothing remains
+    console.log('sanitized: ', doc.body.firstChild.innerHTML);
+    return doc.body.firstChild ? doc.body.firstChild.innerHTML : '';
 }
