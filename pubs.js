@@ -128,5 +128,5 @@ function _sanitizeHtml(html) {
     // Return sanitized HTML or empty string if nothing remains
     console.log('sanitized: ', doc.body.firstChild.innerHTML);
     console.log('body: ', doc.body.innerHTML);
-    return doc.body.firstChild ? doc.body.firstChild.innerHTML : '';
+    return doc.body.innerHTML;
 }
