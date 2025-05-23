@@ -105,18 +105,18 @@ function _replacePublicationDetails(element, updatedDetails) {
 function _sanitizeHtml(html) {
     const allowedTags = ['I', 'EM', 'B', 'STRONG'];
     const doc = new DOMParser().parseFromString('<div>' + html + '</div>', 'text/html');
-    console.log('looking at doc', doc);
-    const walker = document.createTreeWalker(doc.body, NodeFilter.SHOW_ELEMENT, null, false);
+    const container = doc.body.firstChild; // This is the <div> we created
+
+    // Walk all elements inside the container
+    const walker = document.createTreeWalker(container, NodeFilter.SHOW_ELEMENT, null, false);
 
     let node = walker.nextNode();
-    console.log('processing node', node);
     while (node) {
         if (!allowedTags.includes(node.tagName)) {
-            console.log('got not allowed tagname', node.tagName)
             // Replace disallowed element with its text content
             const text = doc.createTextNode(node.textContent);
-            console.log('replacing with textcontent', text)
             node.parentNode.replaceChild(text, node);
+            // After replacement, walker will continue with the next node
         } else {
             // Remove all attributes from allowed tags
             while (node.attributes.length > 0) {
@@ -125,8 +125,6 @@ function _sanitizeHtml(html) {
         }
         node = walker.nextNode();
     }
-    // Return sanitized HTML or empty string if nothing remains
-    console.log('sanitized: ', doc.body.firstChild.innerHTML);
-    console.log('body: ', doc.body.innerHTML);
-    return doc.body.innerHTML;
+    // Return the sanitized inner HTML of the container
+    return container.innerHTML;
 }
