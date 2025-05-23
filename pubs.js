@@ -105,9 +105,11 @@ function _replacePublicationDetails(element, updatedDetails) {
 function _sanitizeHtml(html) {
     const allowedTags = ['I', 'EM', 'B', 'STRONG'];
     const doc = new DOMParser().parseFromString('<div>' + html + '</div>', 'text/html');
+    console.log('looking at doc', doc);
     const walker = document.createTreeWalker(doc.body, NodeFilter.SHOW_ELEMENT, null, false);
 
     let node = walker.nextNode();
+    console.log('processing node', node);
     while (node) {
         if (!allowedTags.includes(node.tagName)) {
             // Replace disallowed element with its text content
