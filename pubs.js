@@ -19,21 +19,21 @@ document.addEventListener('DOMContentLoaded', () => {
 
 // Extracts and processes publication details from title siblings
 function _getPublicationDetails(element) {
-    let content = '';
+    let details = '';
     let sibling = element.nextSibling;
 
     // Iterate through all siblings until the `.note` span is reached
     while (sibling && !(sibling.classList && sibling.classList.contains('note'))) {
         if (sibling.nodeType === Node.TEXT_NODE && sibling.textContent.trim() !== '') {
-            content += sibling.textContent.trim();
+            details += sibling.textContent.trim();
         } else if (sibling.nodeType === Node.ELEMENT_NODE) {
-            content += ' ' + sibling.outerHTML.trim();
+            details += ' ' + sibling.outerHTML.trim();
         }
         sibling = sibling.nextSibling;
     }
 
-    const normalizedContent = _normalizeText(content);
-    return _processPublicationDetails(normalizedContent);
+    const normalizedDetails = _normalizeText(details);
+    return _processPublicationDetails(normalizedDetails);
 }
 
 // Normalize multiple spaces & line feeds with a single space
@@ -43,14 +43,14 @@ function _normalizeText(text) {
 
 // Process author string
 function _processAuthor(author) {
-    const normalizedText = _normalizeText(author);
+    const normalizedAuthor = _normalizeText(author);
 
-    if (normalizedText.endsWith('editor.')) {
-        return normalizedText.slice(0, -9) + ' (Hg.):';
-    } else if (normalizedText.endsWith('editors.')) {
-        return normalizedText.slice(0, -10) + ' (Hg.):';
+    if (normalizedAuthor.endsWith('editor.')) {
+        return normalizedAuthor.slice(0, -9) + ' (Hg.):';
+    } else if (normalizedAuthor.endsWith('editors.')) {
+        return normalizedAuthor.slice(0, -10) + ' (Hg.):';
     } else {
-        return normalizedText + ':';
+        return normalizedAuthor + ':';
     }
 }
 
@@ -83,7 +83,7 @@ function _processTitle(title) {
 }
 
 // Replace publication details in DOM
-function _replacePublicationDetails(element, updatedContent) {
+function _replacePublicationDetails(element, updatedDetails) {
     let sibling = element.nextSibling;
 
     // Iterate through all siblings until the `.note` span is reached
@@ -96,7 +96,13 @@ function _replacePublicationDetails(element, updatedContent) {
     // Insert the updated content as a new span
     const detailsSpan = document.createElement('span');
     detailsSpan.className = 'bibbase_paper_details';
-    detailsSpan.innerHTML = updatedContent;
+    detailsSpan.innerHTML = _sanitizeHtml(updatedDetails);
 
     element.parentNode.insertBefore(detailsSpan, sibling);
+}
+
+// Sanitize HTML to allow only wanted tags
+function _sanitizeHtml(html) {
+    // Remove all tags except <i> and <em>
+    return html.replace(/<(?!\/?(i)\b)[^>]*>/gi, '');
 }
