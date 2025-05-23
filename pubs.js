@@ -103,6 +103,23 @@ function _replacePublicationDetails(element, updatedDetails) {
 
 // Sanitize HTML to allow only wanted tags
 function _sanitizeHtml(html) {
-    // Remove all tags except <i> and <em>
-    return html.replace(/<(?!\/?(i)\b)[^>]*>/gi, '');
+    const allowedTags = ['I', 'EM', 'B', 'STRONG'];
+    const doc = new DOMParser().parseFromString('<div>' + html + '</div>', 'text/html');
+    const walker = document.createTreeWalker(doc.body, NodeFilter.SHOW_ELEMENT, null, false);
+
+    let node = walker.nextNode();
+    while (node) {
+        if (!allowedTags.includes(node.tagName)) {
+            // Replace disallowed element with its text content
+            const text = doc.createTextNode(node.textContent);
+            node.parentNode.replaceChild(text, node);
+        } else {
+            // Remove all attributes from allowed tags
+            while (node.attributes.length > 0) {
+                node.removeAttribute(node.attributes[0].name);
+            }
+        }
+        node = walker.nextNode();
+    }
+    return doc.body.firstChild.innerHTML;
 }
